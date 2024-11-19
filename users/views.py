@@ -11,6 +11,7 @@ from .serializers import (
     CustomTokenObtainPairSerializer,
     RegistrationSerializer,
     UserProfileSerializer,
+    UserProfileUpdateSerializer,
 )
 
 
@@ -33,7 +34,7 @@ class RegisterView(APIView):
                 {
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
-                 },
+                },
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -44,3 +45,17 @@ class UserProfileView(RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UpdateUserProfileView(APIView):
+    serializer_class = UserProfileUpdateSerializer
+
+    def put(self, request):
+        user = request.user
+        serializer = UserProfileUpdateSerializer(instance=user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User updated successfully", "user": serializer.data},
+                            status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

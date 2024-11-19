@@ -13,7 +13,7 @@ from .models import User
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "phone_number"]
+        fields = ['username', 'avatar', 'phone_number', 'email']
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -76,3 +76,24 @@ class RegistrationSerializer(serializers.ModelSerializer):
             return user
         except IntegrityError as e:
             raise AuthenticationFailed(e)
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField(
+        required=False,
+        validators=[
+            RegexValidator(
+                regex=r'^\+996\d{9}$',
+                message="Phone number must be in the format '+996XXXXXXXXX'."
+            )
+        ]
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'avatar', 'phone_number', 'email']
+
+    def validate_phone_number(self, value):
+        if User.objects.filter(phone_number=value).exclude(pk=self.instance.pk).exists():
+            raise serializers.ValidationError("A user with this phone number already exists.")
+        return value
