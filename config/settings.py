@@ -124,11 +124,12 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Tanda documentation",
-    "VERSION": "0.0.1",
+    "VERSION": "1.0.0",
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
     "SCHEMA_PATH_PREFIX_TRIM": False,
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,  # convert "string image" to "binary image"
+    "OPENAPI_VERSION": "3.0.3",
     "SWAGGER_UI_SETTINGS": {
         "defaultModelExpandDepth": 3,
         "defaultModelRendering": "model",
@@ -142,7 +143,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
