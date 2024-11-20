@@ -11,4 +11,5 @@ urlpatterns = [
     ),
     path('subcategory/', views.SubCategoryListAPIView.as_view(), name='subcategory'),
     path('subcategory/<int:pk>/', views.SubCategoryRetrieveAPIView.as_view(), name='category-retrieve'),
+    path('', views.ProductCreateAPIView.as_view(), name='product-create'),
 ]
