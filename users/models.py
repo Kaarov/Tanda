@@ -23,6 +23,7 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, phone_number, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('business', True)
 
         if not extra_fields.get('is_staff'):
             raise ValueError("Superuser must have is_staff=True.")
