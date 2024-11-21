@@ -27,3 +27,9 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         print(self.context['request'].user)
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = "__all__"

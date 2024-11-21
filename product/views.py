@@ -45,3 +45,26 @@ class ProductCreateAPIView(generics.CreateAPIView):
 
     def get_permissions(self):
         return [permissions.BusinessUserPermission()]
+
+
+class ProductBusinessUserAPIView(APIView):
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+
+    def get(self, request):
+        products = models.Product.objects.filter(user=request.user)
+        serializer = serializers.ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def get_permissions(self):
+        return [permissions.BusinessUserPermission()]
+
+
+class SubCategoryProductAPIView(APIView):
+    queryset = models.Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+
+    def get(self, request, subcategory_id):
+        products = models.Product.objects.filter(subcategory_id=subcategory_id)
+        serializer = serializers.ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
